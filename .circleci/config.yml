@@ -1,14 +1,12 @@
-version: 2.1
 jobs:
   build:
     docker:
-      - image: circleci/node:4.8.2
+      - image: 'circleci/node:10'
     steps:
-      - checkout
-      - run: echo "hello world"
+      - run: echo "hello"
 orbs:
-  jira: circleci/jira@1.0.5
-
+  jira: circleci/jira@x.y.z
+version: 2.1
 workflows:
   build:
     jobs:
