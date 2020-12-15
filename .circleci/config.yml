@@ -7,8 +7,32 @@ jobs:
       - run:
           name: Analyze on SonarCloud
           command: mvn verify sonar:sonar
+
+  notify:
+    docker:
+      - image: 'cimg/base:stable'
+    steps:
+      - slack/notify:
+          custom: |
+            {
+              "blocks": [
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "plain_text",
+                      "text": "*This is a text notification*",
+                      "emoji": true
+                    }
+                  ]
+                }
+              ]
+            }
+          event: always
+
 orbs:
   jira: circleci/jira@1.3.0
+  slack: circleci/slack@4.0
 version: 2.1
 workflows:
   build:
@@ -20,3 +44,8 @@ workflows:
     jobs:
       - build:
           context: sonarcloud
+
+  send-notification:
+    jobs:
+      - notify:
+          context: slack-secrets
