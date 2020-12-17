@@ -1,15 +1,11 @@
 jobs:
   build:
     docker:
-      - image: 'circleci/openjdk:11-jdk'
+      - image: 'circleci/node:10'
     steps:
-      - checkout
-      - run:
-          name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
-
+      - run: echo "hello"
 orbs:
-  jira: circleci/jira@1.3.0
+  jira: circleci/jira@1.0.5
 version: 2.1
 workflows:
   build:
@@ -17,8 +13,3 @@ workflows:
       - build:
           post-steps:
             - jira/notify
-  main:
-    jobs:
-      - build:
-          context: sonarcloud
-
